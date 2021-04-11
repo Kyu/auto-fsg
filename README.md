@@ -7,6 +7,7 @@ Runs a program from inside minecraft, parses the output for a seed and a verific
 ### Building  
 
 `./gradlew build` generates a jar  
+Requires `fabric-command-api-v1-xx.jar` and `fabric-api-base-xx.jar`  
 
 
 ### Editing  

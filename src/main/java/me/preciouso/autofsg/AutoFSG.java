@@ -2,7 +2,6 @@ package me.preciouso.autofsg;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 

@@ -47,7 +47,7 @@ public class TitleScreenMixin extends Screen {
                 // Try running seed gen
                 String[] lvlInfo = RunProgram.run();
                 seed = Long.parseLong(lvlInfo[0]);
-                AutoFSG.setVerificationCode(lvlInfo[1]);  // TODO hacky
+                AutoFSG.setVerificationCode(lvlInfo[1]);  // TODO hacky, set as world nbt attribute?
             } catch (IOException e) {
                 // Needs seed, return if none
                 e.printStackTrace();
