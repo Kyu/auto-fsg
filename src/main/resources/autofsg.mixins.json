@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.preciouso.autofsg.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "TitleScreenMixin",
+    "FSGScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
