@@ -1,8 +1,11 @@
-# Auto-FSG
+# Auto-FSG  
 
-Runs a program from inside minecraft, parses the output for a seed and a verification code.  
+[Made for the filteredseed program](https://github.com/Kyu/filteredseed)   
+The link above is my fork of AndyNovo's work, I just extracted out the files from repl.it for easier local compilation. I haven't changed anything.
 
-*Note: This program runs an external executable in java, please make sure you know what's running before you run it*  
+Runs the program from inside minecraft, parses the output for a seed and a verification code.  
+
+**Note: This program runs an external executable in java, please make sure you know what's running before you run it**  
 
 ### Building  
 
@@ -13,7 +16,14 @@ Requires `fabric-command-api-v1-xx.jar` and `fabric-api-base-xx.jar`, for one co
 You will have to add `export LD_LIBRARY_PATH=/path/to/filteredseed/libs` to the end of your ~/.bashrc in order for it to work   
 
 #### Windows  
-Still figuring out how to compile for Windows...
+Still figuring out how to compile for Windows...  
+
+### Running  
+Take the jar from `build/libs/..` after building, paste in your mod folder alongside the fabric modules. Paste a copy of your `seed` executable in `.minecraft/mods/autofsg`.  
+Run minecraft, click AutoFSG, and wait.  
+
+#### Commands  
+`/verification`: Prints out copyable verification code  
 
 
 ### Editing  
