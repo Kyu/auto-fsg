@@ -34,7 +34,7 @@ public class AutoFSG implements ModInitializer {
 		AutoFSG.verificationCode = verificationCode;
 	}
 
-	public String getVerificationCode() {
+	public static String getVerificationCode() {
 		return verificationCode;
 	}
 }

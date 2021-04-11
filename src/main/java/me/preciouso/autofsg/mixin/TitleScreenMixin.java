@@ -53,6 +53,10 @@ public class TitleScreenMixin extends Screen {
                 e.printStackTrace();
                 return;
             }
+            // return if can't find a verification code // TODO test
+            if (AutoFSG.getVerificationCode() == null) {
+                return;
+            }
 
             // Preload World generation info
             LevelInfo lvl = new LevelInfo("New World", GameMode.SURVIVAL, false, Difficulty.EASY, false,
