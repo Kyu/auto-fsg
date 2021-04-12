@@ -1,5 +1,6 @@
 package me.preciouso.autofsg.mixin;
 
+import com.google.common.base.Strings;
 import me.preciouso.autofsg.AutoFSG;
 import me.preciouso.autofsg.screen.FSGScreen;
 import me.preciouso.autofsg.util.RunProgram;
@@ -42,22 +43,24 @@ public class TitleScreenMixin extends Screen {
         this.addButton(new ButtonWidget(this.width / 2 - 100 + 205, y, 50, 20, new LiteralText("Auto FSG"), (buttonWidget) -> {
             // On button click:
             long seed = 0L;
+            String verificationCode;
 
             try {
                 // Try running seed gen
                 String[] lvlInfo = RunProgram.run();
                 seed = Long.parseLong(lvlInfo[0]);
-                AutoFSG.setVerificationCode(lvlInfo[1]);  // TODO hacky, set as world nbt attribute?
+                verificationCode = lvlInfo[1];  // TODO hacky, set as world nbt attribute?
             } catch (IOException e) {
                 // Needs seed, return if none
                 e.printStackTrace();
                 return;
             }
             // return if can't find a verification code // TODO test
-            if (AutoFSG.getVerificationCode() == null) {
+            if (Strings.isNullOrEmpty(verificationCode)) {
                 return;
             }
 
+            AutoFSG.setVerificationCode(verificationCode);
             // Preload World generation info
             LevelInfo lvl = new LevelInfo("New World", GameMode.SURVIVAL, false, Difficulty.EASY, false,
                     new GameRules(), DataPackSettings.SAFE_MODE);
@@ -76,7 +79,6 @@ public class TitleScreenMixin extends Screen {
             // Open CreateWorldScreen with generator options loaded
             FSGScreen fsg = new FSGScreen(this, lvl, gen, null, DataPackSettings.SAFE_MODE, impl);
             MinecraftClient.getInstance().openScreen(fsg);
-
         }));
     }
 }
