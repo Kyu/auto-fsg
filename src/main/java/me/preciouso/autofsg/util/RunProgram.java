@@ -43,7 +43,7 @@ public class RunProgram {
         }
 
         // foramt: {seed, verification-code}
-        String[] seedInfo = new String[2];
+        String[] seedInfo = new String[3];
 
         // Run seed exec
         ProcessBuilder builder = new ProcessBuilder(seedPath);
@@ -56,7 +56,8 @@ public class RunProgram {
         boolean collectVerification = false; // meaning verification will be on next line
         // begin to read output
         while ((line = reader.readLine()) != null) {
-            // System.out.println(line);
+            // System.out.println("OUT: " + line);
+            seedInfo[2] = line;
 
             /*
             Expects:
@@ -76,7 +77,7 @@ public class RunProgram {
             }
          }
 
-        System.out.println(Arrays.toString(seedInfo));
+        System.out.println(Arrays.toString(Arrays.copyOfRange(seedInfo, 0, 2)));
         return seedInfo;
 
     }

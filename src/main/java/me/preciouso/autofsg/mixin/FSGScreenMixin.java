@@ -26,7 +26,6 @@ public abstract class FSGScreenMixin {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 
         // System.out.println(stackTraceElements[5].getMethodName()); // == md405422$lambda$addFSGButton$0$0 for FSG
-        // System.out.println(stackTraceElements[5].hashCode());  // == -409647511 for md405422$lambda$addFSGButton$0$0
         boolean isFsgScreen = stackTraceElements[5].getMethodName().contains("FSG");  // TODO needs to be less hacky, get instanceof somehow
         if (isFsgScreen) {
             this.moreOptionsButton.active = false;

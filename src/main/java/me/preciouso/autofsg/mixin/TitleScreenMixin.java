@@ -42,23 +42,27 @@ public class TitleScreenMixin extends Screen {
         // new TranslatableText("menu.singleplayer")
         this.addButton(new ButtonWidget(this.width / 2 - 100 + 205, y, 50, 20, new LiteralText("Auto FSG"), (buttonWidget) -> {
             // On button click:
+            String[] lvlInfo;
             long seed = 0L;
             String verificationCode;
 
             try {
                 // Try running seed gen
-                String[] lvlInfo = RunProgram.run();
-                seed = Long.parseLong(lvlInfo[0]);
-                verificationCode = lvlInfo[1];  // TODO hacky, set as world nbt attribute?
+                lvlInfo = RunProgram.run();
             } catch (IOException e) {
                 // Needs seed, return if none
                 e.printStackTrace();
                 return;
             }
-            // return if can't find a verification code // TODO test
+
+            verificationCode = lvlInfo[1];
+            // return if can't find a verification code
             if (Strings.isNullOrEmpty(verificationCode)) {
+                System.out.println("Program last output: " + lvlInfo[2]);
                 return;
             }
+
+            seed = Long.parseLong(lvlInfo[0]);
 
             AutoFSG.setVerificationCode(verificationCode);
             // Preload World generation info
