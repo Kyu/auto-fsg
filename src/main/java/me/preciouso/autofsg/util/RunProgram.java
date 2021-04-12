@@ -9,24 +9,34 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class RunProgram {
-    public static String seedPath;
+    private static final String executableName = "seed";
+    public static String execCmd;
     private static boolean foundExec = false;
     private static final Path autofsgDir = Paths.get(FabricLoader.getInstance().getGameDir().toString(), "mods", "autofsg");
+
+    private static String winToWSlPath(String winPath) {
+        char driveLetter = winPath.charAt(0);
+        String partialPath = winPath.substring(3);
+        return "/mnt/" + Character.toLowerCase(driveLetter) + "/" + partialPath.replace("\\", "/");
+    }
 
     // Find seed executable
     private static String getSeedExec() {
         Path myExec;
 
         if (autofsgDir.toFile().exists()) {
-            if (SystemUtils.IS_OS_WINDOWS) {
-                myExec = Paths.get(autofsgDir.toString(), "seed.exe");
-            } else {
-                myExec = Paths.get(autofsgDir.toString(), "seed");
-            }
+
+            myExec = Paths.get(autofsgDir.toString(), executableName);
 
             if (myExec.toFile().exists() && myExec.toFile().canExecute()) {
                 foundExec = true;
-                return myExec.toString();
+                String cmd = myExec.toString();
+
+                if (SystemUtils.IS_OS_WINDOWS) {
+                    cmd = "bash.exe -c " + winToWSlPath(cmd);
+                }
+
+                return cmd;
             }
         }
 
@@ -36,17 +46,18 @@ public class RunProgram {
     public static String[] run() throws IOException {
         // Check for executable path, throw error if still can't find it
         if (!foundExec) {
-            seedPath = getSeedExec();
+            execCmd = getSeedExec();
         }
-        if (!foundExec) {
-            throw new FileNotFoundException("Could not find an *executable* file named seed or seed.exe in " + autofsgDir);
+        if (!foundExec || execCmd == null) {
+            throw new FileNotFoundException("Could not find an *executable* file named " + executableName + " in " + autofsgDir);
         }
 
-        // foramt: {seed, verification-code}
+        // format: {seed, verification-code}
         String[] seedInfo = new String[3];
 
-        // Run seed exec
-        ProcessBuilder builder = new ProcessBuilder(seedPath);
+        // Run seed exec, using WSL if on windows
+        ProcessBuilder builder = new ProcessBuilder(execCmd.split(" ")); // Split into array to prevent cmd not found on windows
+
         builder.redirectErrorStream(true);
         Process process = builder.start();
         InputStream is = process.getInputStream();
@@ -56,8 +67,8 @@ public class RunProgram {
         boolean collectVerification = false; // meaning verification will be on next line
         // begin to read output
         while ((line = reader.readLine()) != null) {
-            // System.out.println("OUT: " + line);
-            seedInfo[2] = line;
+            // System.out.println("OUT: " + line); // debug ish
+            seedInfo[2] = line; // also permanently here for debug purposes, usually to spit out an error
 
             /*
             Expects:
@@ -72,6 +83,7 @@ public class RunProgram {
                 collectVerification = true;
             } else if (collectVerification) {
                 seedInfo[1] = line;
+                collectVerification = false;
             } else if (ParseOutput.isSeedLine(line)) {
                 seedInfo[0] = line.substring(6); // Seed: ...
             }
