@@ -39,7 +39,7 @@ public class RunProgram {
             seedPath = getSeedExec();
         }
         if (!foundExec) {
-            throw new FileNotFoundException("Could not find an *executable* file named seed or seed.exe in " + autofsgDir.toString());
+            throw new FileNotFoundException("Could not find an *executable* file named seed or seed.exe in " + autofsgDir);
         }
 
         // foramt: {seed, verification-code}
