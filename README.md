@@ -1,11 +1,16 @@
 # Auto-FSG  
 
+For Fabric 1.16.1  
+
 [Made for the filteredseed program](https://github.com/Kyu/filteredseed)   
 The link above is my fork of AndyNovo's work, I just extracted out the files from repl.it for easier local compilation. I haven't changed anything.
 
 Runs the program from inside minecraft, parses the output for a seed and a verification code.  
 
-**Note: This program runs an external executable in java, please make sure you know what's running before you run it**  
+**Note: This program runs an external executable in java, please make sure you know what's running before you run it**   
+
+[Demo video here(mic volume is low, sorry)](https://streamable.com/hcjgu3)  
+
 
 ## Building  
 
