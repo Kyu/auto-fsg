@@ -12,7 +12,7 @@ Runs the program from inside minecraft, parses the output for a seed and a verif
 `./gradlew build` generates a jar  
 
 ### Linux  
-You will have to add `export LD_LIBRARY_PATH=/path/to/filteredseed/libs` to the end of your ~/.bashrc in order for it to work   
+You will have to add `export LD_LIBRARY_PATH=/path/to/filteredseed/libs` to the end of your ~/.profile in order for it to work   
 
 ### Windows  
 Still figuring out how to compile for Windows...  
