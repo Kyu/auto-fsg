@@ -77,6 +77,7 @@ public class RunProgram {
             }
          }
 
+        // Print seed and verification for log
         System.out.println(Arrays.toString(Arrays.copyOfRange(seedInfo, 0, 2)));
         return seedInfo;
 

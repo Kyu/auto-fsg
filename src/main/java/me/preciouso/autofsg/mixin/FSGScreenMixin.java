@@ -38,14 +38,12 @@ public abstract class FSGScreenMixin {
             return;
         }
 
-        Text text = Texts.bracketed((new LiteralText(getVerificationCode())).styled((style) ->
-                style.withColor(Formatting.GREEN)
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, String.valueOf(code)))
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.copy.click")))
-                        .withInsertion(code)));
+        Text text = Texts.bracketed((new LiteralText(code)).styled((style) -> style.withColor(Formatting.GREEN)
+                .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, code))
+                .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.copy.click")))
+                .withInsertion(code)));
 
         mc.inGameHud.addChatMessage(MessageType.SYSTEM, text, null);
-
     }
 
 }
