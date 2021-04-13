@@ -20,7 +20,11 @@ You can also run the make_static.sh and it should work as well without any .prof
 
 ### Windows
 Install WSL2 using the manual directions [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10), restart a couple times, set up WSL,
-build your exec using the instructions in the repo above and paste into mods/autofsg
+build your exec using the instructions in the repo above and paste into mods/autofsg   
+
+### Grabbing from replit  
+A demo video is [here](https://streamable.com/bsrvdj) but basically you want to use https://bashupload.com/ to upload to 
+yourself from the replit shell.  
 
 
 ## Running
