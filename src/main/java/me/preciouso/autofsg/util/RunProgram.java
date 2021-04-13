@@ -6,6 +6,7 @@ import org.apache.commons.lang3.SystemUtils;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RunProgram {
@@ -33,7 +34,7 @@ public class RunProgram {
                 String cmd = myExec.toString();
 
                 if (SystemUtils.IS_OS_WINDOWS) {
-                    cmd = "bash.exe -c " + winToWSlPath(cmd);
+                    cmd = winToWSlPath(cmd);
                 }
 
                 return cmd;
@@ -56,7 +57,16 @@ public class RunProgram {
         String[] seedInfo = new String[3];
 
         // Run seed exec, using WSL if on windows
-        ProcessBuilder builder = new ProcessBuilder(execCmd.split(" ")); // Split into array to prevent cmd not found on windows
+        // Split into parts to prevent cmd not found on windows
+        ArrayList<String> cmdBuild = new ArrayList<>();
+        if (SystemUtils.IS_OS_WINDOWS) {
+            cmdBuild.add("bash.exe");
+            cmdBuild.add("-c");
+            // cmdBuild. = new String[]{"bash.exe", "-c"};
+        }
+        cmdBuild.add(execCmd);
+
+        ProcessBuilder builder = new ProcessBuilder(cmdBuild);
 
         builder.redirectErrorStream(true);
         Process process = builder.start();
@@ -67,25 +77,29 @@ public class RunProgram {
         boolean collectVerification = false; // meaning verification will be on next line
         // begin to read output
         while ((line = reader.readLine()) != null) {
-            // System.out.println("OUT: " + line); // debug ish
+            System.out.println("OUT: " + line); // debug ish
             seedInfo[2] = line; // also permanently here for debug purposes, usually to spit out an error
 
             /*
             Expects:
 
             Seed: xxxx
-            Verification Code:
-            xxxx-yyy-zzz
+            Verification Code: xxx-yyy-zzz
+            OR on next line: xxxx-yyy-zzz
 
-            In that order
              */
             if (ParseOutput.isVerificationLine(line)) {
-                collectVerification = true;
+                String[] ver_line = line.split(" ");
+                if (ver_line.length >= 3) {
+                    seedInfo[1] = ver_line[2];  // Verification is on this line
+                } else {
+                    collectVerification = true; // Verification is on next line
+                }
             } else if (collectVerification) {
                 seedInfo[1] = line;
                 collectVerification = false;
             } else if (ParseOutput.isSeedLine(line)) {
-                seedInfo[0] = line.substring(6); // Seed: ...
+                seedInfo[0] = line.split(" ")[1]; // Seed: ...
             }
          }
 
